@@ -17,10 +17,8 @@ await (async () => {
         const dids = new Set(content.nodes.map(n => n.props?.did).filter(d => d !== undefined));
         // 对于每个设备ID，将规则ID添加到对应的设备规则列表中
         dids.forEach(d => {
-            if (devList[d]?.name === "书房空调") {
-                devRuleMap[d] = devRuleMap[d] ?? [];
-                devRuleMap[d].push(rule.id);
-            }
+            devRuleMap[d] = devRuleMap[d] ?? [];
+            devRuleMap[d].push(rule.id);  
         });
     }
     // 转换设备规则映射为设备名称和规则名称，并返回结果
