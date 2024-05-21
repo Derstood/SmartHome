@@ -1,5 +1,4 @@
-var aimDeviceName="客厅空调"
-
+var aimDeviceNamePattern = new RegExp("门锁");
 await (async () => {
     // 定义 callAPI 函数，用于调用 API 并返回一个 Promise
     const callAPI = (api, params) => {
@@ -25,7 +24,7 @@ await (async () => {
 
         // 使用 for...of 循环替代 forEach 以便在满足条件时中途退出循环
         for (const d of dids) {
-            if (devList[d]?.name === aimDeviceName) {
+            if (aimDeviceNamePattern.test(devList[d]?.name)) {
                 devRuleMap[d] = devRuleMap[d] ?? [];
                 devRuleMap[d].push(rule.id);
                 break; // 满足条件后退出当前 for...of 循环
