@@ -1,4 +1,4 @@
-var aimEventNamePattern = new RegExp("打");
+var aimEventNamePattern = new RegExp("闪红灯");
 await (async () => {
     // 定义 callAPI 函数，用于调用 API 并返回一个 Promise
     const callAPI = (api, params) => {
@@ -18,10 +18,10 @@ await (async () => {
     for (const rule of ruleList) {
         // 调用 getGraph API 获取规则的详细信息
         const content = await callAPI('getGraph', { id: rule.id });
-
         // 提取规则中的虚拟事件名字
-        const events = new Set(content.nodes.map(n => n.cfg?.userData?.oriProps?.arguments?.[0]?.v1).filter(d => d !== undefined));
-      
+        const events_call = new Set(content.nodes.map(n => n.cfg?.userData?.oriProps?.arguments?.[0]?.v1).filter(d => d !== undefined));
+        const events_act  = new Set(content.nodes.map(n => n.inputs?.in1).filter(d => d !== undefined));
+        const events = new Set([...events_call, ...events_act]);
         // 使用 for...of 循环替代 forEach 以便在满足条件时中途退出循环
         for (const e of events) {
             if (aimEventNamePattern.test(e)) {
