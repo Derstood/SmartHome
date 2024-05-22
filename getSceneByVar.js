@@ -16,7 +16,6 @@ await (async () => {
     let varRuleMap = {};
 
     const varList = await callAPI('getVarList', { scope: 'global'});
-    const name_id__map = Object.fromEntries(Object.entries(varList).map(([key, value]) => [value.userData.name, key]));
     // 遍历每个规则
     for (const rule of ruleList) {
         // 调用 getGraph API 获取规则的详细信息
