@@ -1,4 +1,4 @@
-var aimVarNamePattern = new RegExp("模式");
+var aimVarNamePattern = new RegExp("淋浴中");
 
 await (async () => {
     // 定义 callAPI 函数，用于调用 API 并返回一个 Promise
@@ -22,7 +22,18 @@ await (async () => {
                 if ( aimVarNamePattern.test(varName) ) {
                     varRuleMap[varName] = varRuleMap[varName] ?? [];
                     varRuleMap[varName].push(rule.userData.name);
-                    break; // 满足条件后退出当前 for...of 循环
+                    break;
+                }
+            } else if (n.type === "calculator" || n.type === "strConcat" ) {
+                for (let e of n.props?.elements ) {
+                    if (e.scope === "global") {
+                        let varName = varList[e.id].userData.name
+                        if ( aimVarNamePattern.test(varName) ) {
+                            varRuleMap[varName] = varRuleMap[varName] ?? [];
+                            varRuleMap[varName].push(rule.userData.name);
+                            break;
+                        }
+                    }
                 }
             }
         }
