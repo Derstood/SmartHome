@@ -5,10 +5,6 @@ await (async () => {
     const callAPI = (api, params) => {
         return new Promise(res => editor.gateway.callAPI(api, params, res));
     };
-
-    // 调用 getDevList API 获取设备列表
-    const devList = (await callAPI('getDevList')).devList;
-
     // 调用 getGraphList API 获取规则列表
     const ruleList = await callAPI('getGraphList');
 
