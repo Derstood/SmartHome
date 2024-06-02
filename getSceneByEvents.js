@@ -27,7 +27,6 @@ await (async () => {
             if (aimEventNamePattern.test(e)) {
                 eventRuleMap[e] = eventRuleMap[e] ?? [];
                 eventRuleMap[e].push(rule.userData.name);
-                break; // 满足条件后退出当前 for...of 循环
             }
         }
     }
