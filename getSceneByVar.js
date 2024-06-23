@@ -22,6 +22,7 @@ await (async () => {
                 if ( aimVarNamePattern.test(varName) ) {
                     varRuleMap[varName] = varRuleMap[varName] ?? [];
                     varRuleMap[varName].push(rule.userData.name);
+                    break;
                 }
             } else if (n.type === "calculator" || n.type === "strConcat" ) {
                 for (let e of n.props?.elements ) {
@@ -30,6 +31,7 @@ await (async () => {
                         if ( aimVarNamePattern.test(varName) ) {
                             varRuleMap[varName] = varRuleMap[varName] ?? [];
                             varRuleMap[varName].push(rule.userData.name);
+                            break;
                         }
                     }
                 }
