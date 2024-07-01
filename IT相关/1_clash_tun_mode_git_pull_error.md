@@ -12,5 +12,5 @@ tun 模式用把22端口也代理了
 ```yaml
 - DST-PORT,22,DIRECT
 ```
-并且关闭**服务模式**
-![alt text](关闭clash服务模式.png)
+并且关闭**服务模式**<br>
+![alt text](P1_关闭clash服务模式.png)
