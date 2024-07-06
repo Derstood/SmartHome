@@ -1,0 +1,15 @@
+POST https://core.api.mijia.tech/app/home/rpc/105519308 HTTP/1.1
+
+Host: core.api.mijia.tech
+Content-Type: application/x-www-form-urlencoded
+Accept: */*
+Accept-Encoding: gzip, deflate, br
+Cookie: PassportDeviceId=42A26ED8F68F26; locale=zh_cn; serviceToken=/RhWZBIZ0NVIreer0hDCo8G+Mvigej/B/vpqKDx49tE2qTUSFJvyVydx9rqMebW4446nqg5PLPgqlsuGcYtbT8QXsrVBri7/FdLg6u5GgoEP1v6FNMxdmIS+FROZyohi91CeZ1Ltuh9NlXRVifUMX93G43D1/rP8pw=; userId=2810003771; yetAnotherServiceToken=/RhWZBIZDxQd0NVIreer0hDCo8G+Mvigej/B/vpqKDx49tE2qTUSFJvyVydx9rqMebW44bq46nqg5PLPgqlsuGcYtbT8QXsrVBri7/FdLg6u5GgoEP1v6FNMxdmIS+FROZ2MOyohi91CeZ1Ltuh9NlXRVifUMX93G43D1/rP8pw=; PassportDeviceId=42A2611ED8F68F26; locale=zh_cn; serviceToken=/RhWZBIZDxQd0NVIreer0hDCo8G+Mvigej/B/vpqKDx49tE2qTUSFJvyVydx9rqMebW44bq46nqg5PLPgqlsuGcYtbT8QXsrVBri7/FdLg6u5GgoEP1v6FNMxdmIS+FROZ2MOyohi91CeZ1Ltuh9NlXRVifUMX93G43D1/rP8pw=; userId=2810003771; yetAnotherServiceToken=/RhWZBIZDxQd0NVIreer0hDCo8G+Mvigej/B/vpqKDx49tE2qTUSFJvyVydx9rqMebW44bq46nqg5PLPgqlsuGcYtbT8QXsrVBri7/FdLg6u5GgoEP1v6FNMxdmIS+FROZ2MOyohi91CeZ1Ltuh9NlXRVifUMX93G43D1/rP8pw=
+Connection: keep-alive
+Content-Length: 230
+operate-common: _region=CN&_language=ZH_CN&_deviceId=47FB2362F162A91AD5666B6C0DBCD05F&_appVersion=9.6.202&_platform=1&_platformVersion=17.5.1
+Accept-Language: zh-Hans;q=1
+X-XIAOMI-PROTOCAL-FLAG-CLI: PROTOCAL-HTTP2
+User-Agent: iOS-17.5.1-9.6.202-iPhone15,2--47FB2362F162ADB5B288FE36C0DBCD05F-2810003771-42A26D8F68F26-iPhone
+
+_nonce=/////9nmMBsBtS0v&data=%7B%22id%22%3AC%22method%22%3A%22miIO.get_central_link_passcode%22%2C%22accey%22%3A%22IOS00026747c5acafc2%22%2C%22params%7B%7D%7D&signature=pJRhuyEK3o6K/%Rdr2zIl0LFG/5stfx3AsE71g%3D
