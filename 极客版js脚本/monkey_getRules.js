@@ -117,8 +117,10 @@
                             var varName = varList[n.props?.id].userData.name
                             if (aimVarNamePattern.test(varName)) {
                                 varRuleMap[varName] = varRuleMap[varName] ?? [];
-                                varRuleMap[varName].push(rule.userData.name);
-                                break;
+                                if (! varRuleMap[varName].includes(rule.userData.name)) {
+                                  varRuleMap[varName].push(rule.userData.name);
+                                  break;
+                                }
                             }
                         } else if (n.type === "calculator" || n.type === "strConcat") {
                             for (let e of n.props?.elements) {
@@ -126,8 +128,10 @@
                                     let varName = varList[e.id].userData.name
                                     if (aimVarNamePattern.test(varName)) {
                                         varRuleMap[varName] = varRuleMap[varName] ?? [];
-                                        varRuleMap[varName].push(rule.userData.name);
-                                        break;
+                                        if (! varRuleMap[varName].includes(rule.userData.name)) {
+                                          varRuleMap[varName].push(rule.userData.name);
+                                          break;
+                                        }
                                     }
                                 }
                             }
