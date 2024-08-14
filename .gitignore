@@ -2,3 +2,4 @@ venv
 .idea
 build
 */*/build/
+*.DS_Store
