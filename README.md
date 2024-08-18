@@ -7,6 +7,10 @@
 # git 配置中文
 git config --global core.quotepath false
 ```
+```PowerShell
+# PowerShell 配置utf8 code-page
+chcp 65001
+```
 
 这是一种对外的**分享**，也是一个对内的**手记**
 
