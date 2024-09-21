@@ -13,21 +13,25 @@
 
    if (document.title.includes("米家自动化极客版")) {
       function sortVarCells() {
-        const varList = document.querySelector(".var-list");
-        const commonVarCells = Array.from(varList.querySelectorAll(".common-var-cell"));
+        const varLists = document.querySelectorAll(".var-list");
 
-        // 按照 var name 的 title 属性进行字典顺序排序
-        commonVarCells.sort((a, b) => {
-            const titleAElement = a.querySelector(".var-name");
-            const titleBElement = b.querySelector(".var-name");
-            // 确保找到元素后再获取 title
-            const titleA = titleAElement ? titleAElement.getAttribute("title").toUpperCase() : "";
-            const titleB = titleBElement ? titleBElement.getAttribute("title").toUpperCase() : "";
-            return titleA.localeCompare(titleB);
+        varLists.forEach(varList => {
+            const commonVarCells = Array.from(varList.querySelectorAll(".common-var-cell"));
+
+            // 按照 var name 的 title 属性进行字典顺序排序
+            commonVarCells.sort((a, b) => {
+                const titleAElement = a.querySelector(".var-name");
+                const titleBElement = b.querySelector(".var-name");
+                // 确保找到元素后再获取 title
+                const titleA = titleAElement ? titleAElement.getAttribute("title").toUpperCase() : "";
+                const titleB = titleBElement ? titleBElement.getAttribute("title").toUpperCase() : "";
+                return titleA.localeCompare(titleB);
+            });
+
+            // 清空原始的 var-list，然后按新顺序插入元素
+            varList.innerHTML = '';
+            commonVarCells.forEach(cell => varList.appendChild(cell));
         });
-        // 清空原始的 var-list，然后按新顺序插入元素
-        varList.innerHTML = '';
-        commonVarCells.forEach(cell => varList.appendChild(cell));
       }
 
       let hasLogged = false; // 用于跟踪是否已记录日志
