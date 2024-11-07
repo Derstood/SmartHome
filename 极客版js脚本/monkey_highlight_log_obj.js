@@ -1,11 +1,11 @@
 // ==UserScript==
-// @name         Highlight Blinking Elements
+// @name         米家极客版
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  Highlight blinking elements on a specific website
 // @author       Derstood
 // @match        *://*/*
-// @grant        none
+// @grant GM_addStyle
 // ==/UserScript==
 
 (function() {
@@ -73,5 +73,6 @@
     // 检查标题
     if (checkTitle()) {
         highlightBlinkingElements()
+        GM_addStyle('.rule-list-item {width: calc(33% - 10px); margin: 5px; min-width: 300px;} .rule-list-head {width: 100%;} .rule-list {display: flex; flex-wrap: wrap;}');
     }
 })();
