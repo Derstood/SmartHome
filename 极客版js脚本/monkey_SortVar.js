@@ -40,7 +40,6 @@
           mutations.forEach(mutation => {
               const targetDiv = document.querySelector('div.sider-item.active');
               if (targetDiv && targetDiv.innerText === '全局变量列表' && !hasLogged) {
-                  console.log('Target div found by mutation observer:', targetDiv);
                   hasLogged = true; // 记录日志后更新标志位
                   setTimeout(sortVarCells, 200);
               } else if (!targetDiv || targetDiv.innerText !== '全局变量列表') {
