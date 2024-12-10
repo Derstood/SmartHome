@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         自动获取极客密码
+// @name         自动获取极客动态密码
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  Send a POST request with custom headers and data
@@ -49,10 +49,10 @@
         const input = document.createElement('input');
         input.type = 'file';
         input.style.position = 'fixed';
-        input.style.top = '10px';
-        input.style.left = '10px';
+        input.style.top = '0px';
+        input.style.left = '80%';
+        input.style.width = '75px';
         input.style.zIndex = 1000;
-        input.textContent="gg"
 
         document.body.appendChild(input);
 
