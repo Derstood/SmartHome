@@ -45,18 +45,37 @@
 
       }
 
-      function createFileInput() {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.style.position = 'fixed';
-        input.style.top = '0px';
-        input.style.left = '80%';
-        input.style.width = '75px';
-        input.style.zIndex = 1000;
+    function createFileInput() {
+      const container = document.createElement('div');
+      container.style.position = 'fixed';
+      container.style.top = '0px';
+      container.style.left = '80%';
+      container.style.width = '100px';
+      container.style.zIndex = 1000;
 
-        document.body.appendChild(input);
+      // 自定义按钮
+      const button = document.createElement('button');
+      button.innerText = '上传抓包文件'; // 设置自定义文字
+      button.style.width = '100%';
+      button.style.padding = '5px';
+      button.style.cursor = 'pointer';
 
-        input.addEventListener('change', handleFileUpload, false);
+      // 隐藏的文件输入框
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.style.position = 'absolute';
+      input.style.opacity = 0;
+      input.style.pointerEvents = 'none'; // 防止直接点击 input
+
+      // 点击按钮触发文件选择
+      button.addEventListener('click', () => input.click());
+
+      // 监听文件上传事件
+      input.addEventListener('change', handleFileUpload, false);
+
+      container.appendChild(button);
+      container.appendChild(input);
+      document.body.appendChild(container);
     }
 
     function handleFileUpload(event) {
