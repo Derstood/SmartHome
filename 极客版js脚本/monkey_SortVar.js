@@ -48,13 +48,12 @@
           });
       });
 
-      // 配置观察选项，监视子节点的添加和变化
+      // 监视子节点的添加和变化
       const config = {
           childList: true,
           subtree: true // 监视所有子节点
       };
 
-      // 启动观察
       observer.observe(document.body, config);
    }
 })();
