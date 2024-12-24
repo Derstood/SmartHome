@@ -40,7 +40,6 @@
           mutations.forEach(mutation => {
               const targetDiv = document.querySelector('div.sider-item.active');
               if (targetDiv && targetDiv.innerText === '全局变量列表' && !hasLogged) {
-                  console.log('Target div found by mutation observer:', targetDiv);
                   hasLogged = true; // 记录日志后更新标志位
                   setTimeout(sortVarCells, 200);
               } else if (!targetDiv || targetDiv.innerText !== '全局变量列表') {
@@ -49,13 +48,12 @@
           });
       });
 
-      // 配置观察选项，监视子节点的添加和变化
+      // 监视子节点的添加和变化
       const config = {
           childList: true,
           subtree: true // 监视所有子节点
       };
 
-      // 启动观察
       observer.observe(document.body, config);
    }
 })();

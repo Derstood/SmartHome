@@ -1,9 +1,25 @@
-# get_xiaomi_gateway_passwd
-获取小米中枢网关的登录密码
+# 自动获取小米中枢网关的登录密码
+
+## 知识储备
+1. 抓包软件的使用
+2. 暴力猴插件的使用
+
+## 原理
+1. 发post请求
+2. 解析返回
+3. 将返回复制到剪贴板
 
 ## 输入
-#### 一个抓包文件
-[格式](get_xiaomi_gateway_passwd_database.txt)
+### 一个暴力猴脚本
+[脚本源码](../../极客版js脚本/monkey_get_xiaomi_passwd.js)
 
-## 效果
-![举例](example.png)
+#### 一个抓包文件
+[post格式](post请求的格式样例.txt)<br>
+1. url 
+2. header 
+3. data<br> 
+三部分之间需要用**空行隔开**
+
+## 使用步骤
+1. 添加[暴力猴](../../极客版js脚本/monkey_get_xiaomi_passwd.js)脚本
+2. 首次使用需要上传一个[抓包文件](post请求的格式样例.txt)
