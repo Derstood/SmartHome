@@ -38,7 +38,7 @@
 
       const observer = new MutationObserver((mutations) => {
           mutations.forEach(mutation => {
-              const targetDiv = document.querySelector('div.sider-item.active');
+              const targetDiv = document.querySelector('div.sider-item.bg-active .sider-item-title');
               if (targetDiv && targetDiv.innerText === '全局变量列表' && !hasLogged) {
                   hasLogged = true; // 记录日志后更新标志位
                   setTimeout(sortVarCells, 200);
