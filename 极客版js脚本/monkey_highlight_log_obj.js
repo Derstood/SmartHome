@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         米家极客版
+// @name         米家极客版UI优化
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  Highlight blinking elements on a specific website
@@ -14,6 +14,22 @@
     // 检查网页标题是否为“米家自动化极客版”
     function checkTitle() {
         return document.title.includes("米家自动化极客版");
+    }
+
+    function ruleListUI () {
+      GM_addStyle(`
+          .rule-list {
+            display: flex !important; /* 使用 flex 布局 */
+            flex-wrap: wrap !important; /* 子元素换行 */
+            justify-content: space-between !important; /* 子元素之间均匀分布 */
+          }
+          .rule-list-item {
+            width: 32% !important; /* 宽度为 32%（留一些空间用于 margin） */
+            margin-bottom: 10px !important; /* 设置下间距 */
+            min-width: 280px !important; /* 确保最小宽度 */
+            box-sizing: border-box !important; /* 确保宽度和 margin 计算正确 */
+          }
+        `);
     }
 
     // 主函数，执行高亮逻辑
@@ -73,6 +89,6 @@
     // 检查标题
     if (checkTitle()) {
         highlightBlinkingElements()
-        GM_addStyle('.rule-list-item {width: calc(33% - 10px); margin: 5px; min-width: 300px;} .rule-list-head {width: 100%;} .rule-list {display: flex; flex-wrap: wrap;}');
+        ruleListUI()
     }
 })();
