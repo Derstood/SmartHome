@@ -51,7 +51,9 @@
       // 监视子节点的添加和变化
       const config = {
           childList: true,
-          subtree: true // 监视所有子节点
+          subtree: true, // 监视所有子节点
+          characterData: true, // 监听文本内容变化
+          attributes: true // 监听属性变化
       };
 
       observer.observe(document.body, config);
