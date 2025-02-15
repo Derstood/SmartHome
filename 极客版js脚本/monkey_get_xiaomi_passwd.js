@@ -14,7 +14,29 @@
     'use strict';
     if (document.title.includes("米家自动化极客版")) {
 
+      function triggerPaste(text) {
+        // 找到一个输入框或可编辑区域
+        const editableElement = document.querySelector("input, textarea, [contenteditable=true]");
 
+        if (editableElement) {
+            // 创建粘贴事件
+            const pasteEvent = new ClipboardEvent("paste", {
+                bubbles: true,
+                cancelable: true,
+                clipboardData: new DataTransfer()
+            });
+
+            // 设置剪贴板内容
+            pasteEvent.clipboardData.setData("text/plain", text);
+
+            // 触发粘贴事件
+            editableElement.dispatchEvent(pasteEvent);
+
+            console.log("已自动粘贴:", text);
+        } else {
+            console.warn("未找到可编辑区域，无法自动粘贴");
+        }
+      }
 
       function postReq(url,headers,data) {
         GM_xmlhttpRequest({
@@ -31,6 +53,10 @@
                 // 提示用户已复制
                 // alert('字符串已复制到剪贴板：' + passcode);
                 console.log(passcode)
+                // 延时 1 秒后触发粘贴操作
+                setTimeout(() => {
+                    triggerPaste(passcode);
+                }, 2000);
                 // 存储当前解析结果
                 const cacheData = { url, headers, data };
                 localStorage.setItem("cachePasswdPost", JSON.stringify(cacheData));
