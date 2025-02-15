@@ -43,7 +43,6 @@
                     if (aimDeviceNamePattern.test(devList[d]?.name)) {
                         devRuleMap[d] = devRuleMap[d] ?? [];
                         devRuleMap[d].push(rule.id);
-                        break; // 满足条件后退出当前 for...of 循环
                     }
                 }
             }
@@ -119,7 +118,6 @@
                                 varRuleMap[varName] = varRuleMap[varName] ?? [];
                                 if (! varRuleMap[varName].includes(rule.userData.name)) {
                                   varRuleMap[varName].push(rule.userData.name);
-                                  break;
                                 }
                             }
                         } else if (n.type === "calculator" || n.type === "strConcat") {
@@ -130,7 +128,6 @@
                                         varRuleMap[varName] = varRuleMap[varName] ?? [];
                                         if (! varRuleMap[varName].includes(rule.userData.name)) {
                                           varRuleMap[varName].push(rule.userData.name);
-                                          break;
                                         }
                                     }
                                 }
