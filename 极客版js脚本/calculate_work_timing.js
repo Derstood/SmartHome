@@ -43,13 +43,11 @@
           // 计算时间差（毫秒）
           const timeDifference = endTime - startTime;
           // 如果差值超过 11 小时 (11小时 = 11 * 60 * 60 * 1000 毫秒)
-          if (timeDifference > 11 * 60 * 60 * 1000) {
+          if (timeDifference >= 11.5 * 60 * 60 * 1000) {
             // 累加超出部分，四舍五入到最接近的半小时
             totalExcessTime += roundToHalfHour(timeDifference - 11 * 60 * 60 * 1000);
-            console.log(day+":"+roundToHalfHour(timeDifference - 11 * 60 * 60 * 1000))
+            console.log(day+"号加班："+roundToHalfHour(timeDifference - 11 * 60 * 60 * 1000)+"小时")
           }
-        } else {
-          console.error('无法找到时间元素');
         }
       }
 
@@ -68,6 +66,4 @@
   if (nextButton) {
       nextButton.addEventListener('click', calculate_time);
   }
-
-
 })();
