@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Sort Var
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  Sort Var
 // @author       Derstood
 // @match        *://*/*
@@ -13,6 +13,7 @@
 
    if (document.title.includes("米家自动化极客版")) {
       function sortVarCells() {
+        console.log("monkey-extension: sortVar().....")
         const varLists = document.querySelectorAll(".var-list");
 
         varLists.forEach(varList => {
@@ -35,7 +36,6 @@
       }
 
       let hasLogged = false; // 用于跟踪是否已记录日志
-
       const observer = new MutationObserver((mutations) => {
           mutations.forEach(mutation => {
               const targetDiv = document.querySelector('div.sider-item.bg-active .sider-item-title');
