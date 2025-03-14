@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GDR/GVR/GER-米家极客版通过 设备/变量/虚拟事件 找场景
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  米家极客版通过 设备/变量/虚拟事件 找场景
 // @author       Derstood
 // @match        *://*/*
@@ -78,8 +78,9 @@
                     // 调用 getGraph API 获取规则的详细信息
                     const content = await callAPI('getGraph', { id: rule.id });
                     // 提取规则中的虚拟事件名字
-                    const events_call = new Set(content.nodes.map(n => n.cfg?.userData?.oriProps?.arguments?.[0]?.v1).filter(d => d !== undefined));
-                    const events_act = new Set(content.nodes.map(n => n.inputs?.in1).filter(d => d !== undefined));
+                    const events_call = new Set(content.nodes.map(n => n.props?.arguments?.[0]?.v1).filter(d => d !== undefined));
+                    const events_act = new Set(content.nodes.map(n => n.props?.ins?.[0]?.value).filter(d => d !== undefined));
+
                     const events = new Set([...events_call, ...events_act]);
                     // 使用 for...of 循环替代 forEach 以便在满足条件时中途退出循环
                     for (const e of events) {
