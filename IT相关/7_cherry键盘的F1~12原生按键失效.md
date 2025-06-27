@@ -1,15 +1,12 @@
-# cherry¼üÅÌ°´¼üÒì³£
+# cherryé”®ç›˜æŒ‰é”®å¼‚å¸¸
 
-## Ò»¡¢ F1~12Ô­Éú°´¼üÊ§Ð§
-È«²¿±ä³ÉÁË°´ÏÂ**Fn**ºó¶ÔÓ¦µÄ¹¦ÄÜ¼ü
-### ½â¾ö°ì·¨
+## ä¸€ã€ F1~12åŽŸç”ŸæŒ‰é”®å¤±æ•ˆ
+å…¨éƒ¨å˜æˆäº†æŒ‰ä¸‹**Fn**åŽå¯¹åº”çš„åŠŸèƒ½é”®
+### è§£å†³åŠžæ³•
 - Ctrl + Alt + Fn <br>
-»òÕß<br>
-- Alt + Ctrl + Fn <br>
+**Ctrl Altå‡ä¸åˆ†å·¦å³**
 
-**Ctrl Alt¾ù²»·Ö×óÓÒ**
-
-## ¶þ¡¢ win¼üÊ§Ð§
-±»**winlk**ËøÁË (win lock)
-### ½â¾ö°ì·¨
-°´F9
+## äºŒã€ winé”®å¤±æ•ˆ
+è¢«**winlk**é”äº† (win lock)
+### è§£å†³åŠžæ³•
+æŒ‰F9
