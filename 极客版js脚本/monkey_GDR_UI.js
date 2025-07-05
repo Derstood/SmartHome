@@ -5,7 +5,7 @@
 // @description  Highlight blinking elements
 // @author       Derstood
 // @match        *://*/*
-// @grant GM_addStyle
+// @grant        GM_addStyle
 // ==/UserScript==
 
 (function() {
@@ -41,12 +41,13 @@
             btn.addEventListener('click', async e => {
                 e.stopPropagation();
                 const result = await GDR(title);
-                const values = Object.values(result)[0];  // 只取第一个 value 数组
+                const values = result && typeof result === 'object' ? Object.values(result)[0] : null;
                 if (Array.isArray(values)) {
                     window.lastGDRValue = values;
-                    console.log(`已加载 ${values.length} 个选项，点击右上按钮查看`);
+                    alert(`已加载 ${values.length} 个选项，点击右上按钮查看`);
                 } else {
-                    console.log('GDR 返回无效');
+                    console.warn('GDR 返回结果无效：', result);
+                    alert('GDR 返回数据异常，请检查');
                 }
             });
 
@@ -55,74 +56,79 @@
     }
 
     function createDropdownButton() {
-      const container = document.createElement('div');
-      container.style.position = 'fixed';
-      container.style.top = '0px';
-      container.style.left = '50%';
-      container.style.width = '150px';
-      container.style.zIndex = 1000;
+        const container = document.createElement('div');
+        container.style.position = 'fixed';
+        container.style.top = '10px';
+        container.style.left = '50%';
+        container.style.transform = 'translateX(-50%)';
+        container.style.width = '150px';
+        container.style.zIndex = 1000;
 
-      const button = document.createElement('button');
-      button.innerText = '选择要打开的自动化';
-      button.style.width = '100%';
-      button.style.padding = '5px';
-      button.style.cursor = 'pointer';
+        const button = document.createElement('button');
+        button.innerText = '选择要打开的自动化';
+        button.style.width = '100%';
+        button.style.opacity = '0.5';
+        button.style.padding = '5px';
+        button.style.cursor = 'pointer';
 
-      button.addEventListener('click', () => {
-        if (!window.lastGDRValue || !Array.isArray(window.lastGDRValue)) {
-          alert('请先点击设备方块加载数据');
-          return;
-        }
+        button.addEventListener('click', () => {
+            if (!window.lastGDRValue || !Array.isArray(window.lastGDRValue)) {
+                alert('请先点击设备方块加载数据');
+                return;
+            }
 
-        const select = document.createElement('select');
-        select.style.position = 'fixed';
-        select.style.top = '30px';
-        select.style.left = '50%';
-        select.style.zIndex = 1001;
-        select.style.width = '100px';
+            const select = document.createElement('select');
+            select.style.position = 'fixed';
+            select.style.top = '30px';
+            select.style.left = '50%';
+            select.style.transform = 'translateX(-50%)';
+            select.style.zIndex = 1001;
+            select.style.width = '100px';
+            select.setAttribute('size', window.lastGDRValue.length);
+            select.style.height = `${window.lastGDRValue.length * 24}px`;
 
-        select.setAttribute('size', window.lastGDRValue.length);
-        select.style.height = `${window.lastGDRValue.length * 24}px`;
+            window.lastGDRValue.forEach(v => {
+                const option = document.createElement('option');
+                option.textContent = v;
+                option.value = v;
+                select.appendChild(option);
+            });
 
+            const xElement = Array.from(document.querySelectorAll('.sider-item')).find(div => div.textContent.trim() === '自动化列表');
+            const mainButton = document.querySelector('.app-header-menu-item.app-header-menu-left');
 
-        window.lastGDRValue.forEach(v => {
-          const option = document.createElement('option');
-          option.textContent = v;
-          option.value = v;
-          select.appendChild(option);
+            select.addEventListener('change', () => {
+                const value = select.value;
+                xElement?.click();
+                mainButton.click();
+                setTimeout(() => {
+                    const targetElement = Array.from(document.querySelectorAll('.rule-list-item-left-title')).find(p => p.textContent.trim() === value);
+                    targetElement?.click();
+                }, 200);
+                select.remove();
+            });
+
+            select.addEventListener('mousedown', () => {
+                if (select.options.length === 1) {
+                    const event = new Event('change', { bubbles: true });
+                    select.dispatchEvent(event);
+                }
+            });
+
+            document.body.appendChild(select);
         });
 
-        const xElement = Array.from(document.querySelectorAll('.sider-item')).find(div => div.textContent.trim() === '自动化列表');
-        select.addEventListener('change', () => {
-          xElement.click()
-          setTimeout(() => {
-            let targetElement = Array.from(document.querySelectorAll('.rule-list-item-left-title')).find(p => p.textContent.trim() === select.value);
-            targetElement.click()
-          }, 200);
-
-          select.remove();
-        });
-
-        document.body.appendChild(select);
-      });
-
-      container.appendChild(button);
-      document.body.appendChild(container);
+        container.appendChild(button);
+        document.body.appendChild(container);
     }
-
-
-
-
 
     // 检查标题
     if (checkTitle()) {
+        const observer = new MutationObserver(add_call_GDR_btn);
+        observer.observe(document.body, { childList: true, subtree: true });
 
+        add_call_GDR_btn(); // 页面初始加载也执行一次
 
-         const observer = new MutationObserver(add_call_GDR_btn);
-         observer.observe(document.body, { childList: true, subtree: true });
-
-         add_call_GDR_btn(); // 页面初始加载也执行一次
-
-         createDropdownButton(); // 页面加载时执行一次
+        createDropdownButton(); // 页面加载时执行一次
     }
 })();
