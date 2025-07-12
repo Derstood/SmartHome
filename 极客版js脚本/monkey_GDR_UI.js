@@ -16,6 +16,36 @@
         return document.title.includes("米家自动化极客版");
     }
 
+    function showToast(message, duration = 2000) {
+      const toast = document.createElement('div');
+      toast.textContent = message;
+      toast.style.position = 'fixed';
+      toast.style.bottom = '50%';
+      toast.style.left = '50%';
+      toast.style.transform = 'translateX(-50%)';
+      toast.style.background = 'rgba(0, 0, 0, 0.8)';
+      toast.style.color = 'white';
+      toast.style.padding = '10px 20px';
+      toast.style.borderRadius = '8px';
+      toast.style.fontSize = '14px';
+      toast.style.zIndex = 9999;
+      toast.style.opacity = '0';
+      toast.style.transition = 'opacity 0.3s';
+
+      document.body.appendChild(toast);
+
+      requestAnimationFrame(() => {
+          toast.style.opacity = '1';
+      });
+
+      setTimeout(() => {
+          toast.style.opacity = '0';
+          toast.addEventListener('transitionend', () => {
+              toast.remove();
+          });
+      }, duration);
+    }
+
     function add_call_GDR_btn() {
         document.querySelectorAll('.common-device-cell:not([data-patched])').forEach(el => {
             el.setAttribute('data-patched', 'true'); // 防止重复添加
@@ -44,7 +74,7 @@
                 const values = result && typeof result === 'object' ? Object.values(result)[0] : null;
                 if (Array.isArray(values)) {
                     window.lastGDRValue = values;
-                    alert(`已加载 ${values.length} 个选项，点击右上按钮查看`);
+                    showToast(`已加载 ${values.length} 个选项，点击右上按钮查看`,1000);
                 } else {
                     console.warn('GDR 返回结果无效：', result);
                     alert('GDR 返回数据异常，请检查');
@@ -59,21 +89,68 @@
         const container = document.createElement('div');
         container.style.position = 'fixed';
         container.style.top = '10px';
-        container.style.left = '50%';
-        container.style.transform = 'translateX(-50%)';
+        container.style.left = '10px';         // ✅ 不要用 50% + transform，容易跳动
         container.style.width = '150px';
         container.style.zIndex = 1000;
+        container.style.cursor = 'move';       // 鼠标悬浮在整体都显示拖动
 
         const button = document.createElement('button');
         button.innerText = '选择要打开的自动化';
         button.style.width = '100%';
         button.style.opacity = '0.5';
         button.style.padding = '5px';
-        button.style.cursor = 'pointer';
+        button.style.cursor = 'pointer';      // 按钮内仍可点
+        container.appendChild(button);
+        document.body.appendChild(container);
+
+        // ✅ 拖动逻辑绑在 container 上
+        // 拖动+防止 click 误触
+        let preventNextClick = false;
+        container.onmousedown = function (e) {
+          e.preventDefault();
+
+          const startX = e.clientX;
+          const startY = e.clientY;
+
+          const shiftX = e.clientX - container.getBoundingClientRect().left;
+          const shiftY = e.clientY - container.getBoundingClientRect().top;
+
+          function moveAt(pageX, pageY) {
+              container.style.left = pageX - shiftX + 'px';
+              container.style.top = pageY - shiftY + 'px';
+          }
+
+          function onMouseMove(e) {
+              moveAt(e.pageX, e.pageY);
+          }
+
+          document.addEventListener('mousemove', onMouseMove);
+
+          document.onmouseup = function (upEvent) {
+              document.removeEventListener('mousemove', onMouseMove);
+              document.onmouseup = null;
+
+              const deltaX = upEvent.clientX - startX;
+              const deltaY = upEvent.clientY - startY;
+              const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+              if (distance > 5) {
+                  preventNextClick = true; // 判断为拖动，不触发 click
+              }
+          };
+        };
+
+        // 捕获阶段阻止 click 事件
+        container.addEventListener('click', function (e) {
+            if (preventNextClick) {
+                e.stopPropagation();
+                e.preventDefault();
+                preventNextClick = false;
+            }
+        }, true); // useCapture = true
 
         button.addEventListener('click', () => {
             if (!window.lastGDRValue || !Array.isArray(window.lastGDRValue)) {
-                alert('请先点击设备方块加载数据');
+                showToast('请先点击设备方块加载数据',1000);
                 return;
             }
 
@@ -94,17 +171,26 @@
                 select.appendChild(option);
             });
 
-            const xElement = Array.from(document.querySelectorAll('.sider-item')).find(div => div.textContent.trim() === '自动化列表');
+            //const xElement = Array.from(document.querySelectorAll('.sider-item')).find(div => div.textContent.trim() === '自动化列表');
             const mainButton = document.querySelector('.app-header-menu-item.app-header-menu-left');
 
             select.addEventListener('change', () => {
                 const value = select.value;
-                xElement?.click();
+                //xElement?.click();
                 mainButton.click();
+                // 清空搜索框 start
+                setTimeout(() => {
+                  const input = document.querySelector('input[placeholder="输入想找的自动化"]');
+                  const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+                  nativeInputValueSetter.call(input, '');
+                  input.dispatchEvent(new Event('input', { bubbles: true }));
+                }, 200);
+                // 清空搜索框 end
+
                 setTimeout(() => {
                     const targetElement = Array.from(document.querySelectorAll('.rule-list-item-left-title')).find(p => p.textContent.trim() === value);
                     targetElement?.click();
-                }, 200);
+                }, 400);
                 select.remove();
             });
 
