@@ -1,10 +1,10 @@
-# HAĞéÄâ»ú ÍĞ¹ÜµÄI/OÎÊÌâ
+# HAè™šæ‹Ÿæœº æ‰˜ç®¡çš„I/Oé—®é¢˜
 
-## ½â¾ö·½·¨
-1. ssh µÇÈëexsi»úÆ÷
-2. ÏÈchceckºórepair
+## è§£å†³æ–¹æ³•
+1. ssh ç™»å…¥exsiæœºå™¨
+2. å…ˆchceckårepair
 
 ```bash
-vmkfstools -x check /vmfs/volumes/5fee7060-228842b9-f949-60beb414cab4/HomeAssistant/haos_ova-11.5-000005.vmdk
-vmkfstools -x repair /vmfs/volumes/5fee7060-228842b9-f949-60beb414cab4/HomeAssistant/haos_ova-11.5-000005.vmdk
+vmkfstools -x check /vmfs/volumes/6539a555-33ecd498-e4fc-60beb40e9688/HomeAssistant/haos_ova-11.0.vmdk
+vmkfstools -x repair /vmfs/volumes/6539a555-33ecd498-e4fc-60beb40e9688/HomeAssistant/haos_ova-11.0.vmdk
 ```
