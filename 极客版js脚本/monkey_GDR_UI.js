@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         米家极客版UI优化
+// @name         米家极客版GDR UI
 // @namespace    http://tampermonkey.net/
 // @version      0.3
 // @description  Highlight blinking elements
