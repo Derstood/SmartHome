@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GDR/GVR/GER-米家极客版通过 设备/变量/虚拟事件 找场景
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.21
 // @description  米家极客版通过 设备/变量/虚拟事件 找场景
 // @author       Derstood
 // @match        *://*/*
@@ -55,6 +55,7 @@
                 ])
             );
             console.log(result)
+            return result
         };
         window.GER = async function (aimEventName) {
             var aimEventNamePattern = new RegExp(aimEventName);
@@ -114,7 +115,7 @@
                     const content = await callAPI('getGraph', { id: rule.id });
                     for (const n of content.nodes) {
                         if (n.props?.scope === "global") {
-                            var varName = varList[n.props?.id].userData.name
+                            var varName = varList[n.props?.id]?.userData?.name
                             if (aimVarNamePattern.test(varName)) {
                                 varRuleMap[varName] = varRuleMap[varName] ?? [];
                                 if (! varRuleMap[varName].includes(rule.userData.name)) {
