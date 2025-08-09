@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         米家极客版GDR UI
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.21
 // @description  Highlight blinking elements
 // @author       Derstood
 // @match        *://*/*
@@ -77,7 +77,7 @@
                     showToast(`已加载 ${values.length} 个选项，点击右上按钮查看`,1000);
                 } else {
                     console.warn('GDR 返回结果无效：', result);
-                    alert('GDR 返回数据异常，请检查');
+                    showToast('GDR 返回数据为空',1000);
                 }
             });
 
