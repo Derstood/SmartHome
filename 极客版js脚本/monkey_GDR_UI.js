@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         米家极客版GDR UI
 // @namespace    http://tampermonkey.net/
-// @version      0.21
+// @version      0.4
 // @description  Highlight blinking elements
 // @author       Derstood
 // @match        *://*/*
@@ -89,7 +89,7 @@
         const container = document.createElement('div');
         container.style.position = 'fixed';
         container.style.top = '10px';
-        container.style.left = '10px';         // ✅ 不要用 50% + transform，容易跳动
+        container.style.left = '500px';         // ✅ 不要用 50% + transform，容易跳动
         container.style.width = '150px';
         container.style.zIndex = 1000;
         container.style.cursor = 'move';       // 鼠标悬浮在整体都显示拖动
