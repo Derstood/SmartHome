@@ -9,4 +9,4 @@
 ## 二、 win键失效
 被**winlk**锁了 (win lock)
 ### 解决办法
-按F9
+按下 Fn + F9
