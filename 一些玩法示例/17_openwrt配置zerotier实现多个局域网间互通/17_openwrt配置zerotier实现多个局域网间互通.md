@@ -1,4 +1,4 @@
-# openwrt配置zerotier覆盖局域网
+# openwrt配置zerotier实现多个局域网间互通
 
 ## 准备所需
 1. openwrt中安装好zerotier cli
