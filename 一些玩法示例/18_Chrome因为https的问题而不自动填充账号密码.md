@@ -11,4 +11,4 @@ Windows Registry Editor Version 5.00
 ```
 这里是将192.168.x.x的全部指定为安全网站的遍历内容(chrome目前不支持*匹配)。
 如果有部分想自定义的，可以在
-![chrome flag 设置](chrome://flags/#unsafely-treat-insecure-origin-as-secure)里加入，一行一个
+[chrome flag 设置](chrome://flags/#unsafely-treat-insecure-origin-as-secure)里加入，一行一个
