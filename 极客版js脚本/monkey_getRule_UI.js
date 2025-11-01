@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         米家极客版getRule UI
 // @namespace    http://tampermonkey.net/
-// @version      0.5
+// @version      0.51
 // @description  同时支持设备(GDR)与变量(GVR)的标志与快速跳转功能
 // @author       Derstood
 // @match        *://*/*
@@ -44,20 +44,22 @@
       const title = el.querySelector(titleSelector)?.getAttribute('title');
       if (!title) return;
       const btn = document.createElement('div');
-      btn.textContent = '🔲';
+      btn.textContent = '🔍';
       btn.style.cssText = `
-        width: 16px; height: 16px;
-        display: inline-block;
-        margin-right: 5px;
-        background: lightgray;
-        color: black;
-        font-size: 12px;
-        text-align: center;
-        line-height: 16px;
-        cursor: pointer;
-        border-radius: 2px;
-        user-select: none;
+          width: 16px; height: 16px;
+          display: inline-flex;
+          align-items: center; justify-content: center;
+          margin-right: 5px;
+          background: transparent;
+          color: var(--text-color-level2);
+          font-size: 14px;
+          cursor: pointer;
+          border-radius: 3px;
+          user-select: none;
+          transition: background 0.2s, color 0.2s;
       `;
+      btn.addEventListener('mouseenter', () => btn.style.background = 'rgba(0,0,0,0.1)');
+      btn.addEventListener('mouseleave', () => btn.style.background = 'transparent');
       btn.addEventListener('click', async e => {
         e.stopPropagation();
         const result = await func(title);
