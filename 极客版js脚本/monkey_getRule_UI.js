@@ -1,18 +1,42 @@
 // ==UserScript==
 // @name         米家极客版getRule UI
 // @namespace    http://tampermonkey.net/
-// @version      0.51
-// @description  同时支持设备(GDR)与变量(GVR)的标志与快速跳转功能
+// @version      0.6
+// @description  同时支持设备(GDR)与变量(GVR)的标志与快速跳转、高亮卡片功能
 // @author       Derstood
 // @match        *://*/*
 // @grant        GM_addStyle
+// @grant        GM_setValue
+// @grant        GM_getValue
+
 // ==/UserScript==
 
 (function() {
   'use strict';
 
+  GM_setValue('select_dev_name', '');
   function checkTitle() {
     return document.title.includes("米家自动化极客版");
+  }
+
+  // 添加紫色闪光style
+  const styleId = 'purple-blink-style';
+  if (!document.getElementById(styleId)) {
+    const s = document.createElement('style');
+    s.id = styleId;
+    s.textContent = `
+      @keyframes purpleBlink {
+        0%,100% { color: inherit; background: transparent; }
+        50%    { color: #fff; background: purple; }
+      }
+      ._purple_blink {
+        animation: purpleBlink 1s infinite;
+        padding: 0.05em 0.15em;
+        border-radius: 3px;
+        display: inline-block;
+      }
+    `;
+    document.head.appendChild(s);
   }
 
   function showToast(message, duration = 2000) {
@@ -62,6 +86,7 @@
       btn.addEventListener('mouseleave', () => btn.style.background = 'transparent');
       btn.addEventListener('click', async e => {
         e.stopPropagation();
+        GM_setValue('select_dev_name', title);
         const result = await func(title);
         if (Array.isArray(result)) {
           window.lastGDRValue = result;
@@ -130,7 +155,11 @@
         showToast('请先点击设备或变量方块加载数据', 1000);
         return;
       }
-      document.querySelector('.my-custom-select')?.remove();
+      const selectElement = document.querySelector('.my-custom-select');
+      if(selectElement){
+        selectElement.remove();
+        return;
+      }
       const rect = container.getBoundingClientRect();
       const select = document.createElement('select');
       select.className = 'my-custom-select';
@@ -164,6 +193,19 @@
             .find(p => p.textContent.trim() === value);
           target?.click();
         }, 400);
+        const select_dev_name = GM_getValue('select_dev_name').trim();
+        const observer = new MutationObserver(() => {
+          const no_purple_element=document.querySelectorAll('body *:not(script):not(style):not(._purple_blink)')
+          const el = Array.from(no_purple_element).find(e => e.textContent.trim() === select_dev_name.trim());
+          if (el) {
+            el.classList.add('_purple_blink');
+            const count_purple_element=document.querySelectorAll('body *:not(script):not(style)._purple_blink').length
+            showToast('共找到'+ count_purple_element +'个卡片');
+            console.log('共找到'+ count_purple_element +'个卡片');
+          }
+        });
+        // 开始监听整个 body，直到元素出现
+        observer.observe(document.body, { childList: true, subtree: true });
         select.remove();
       });
       select.addEventListener('mousedown', () => {
@@ -171,9 +213,16 @@
           select.dispatchEvent(new Event('change', { bubbles: true }));
         }
       });
-      document.addEventListener('click', e => {
-        if (!select.contains(e.target) && !container.contains(e.target)) select.remove();
-      }, { once: true });
+      document.addEventListener('click', function handleClick(e) {
+        if (!select.contains(e.target) && !container.contains(e.target)) {
+          select.remove();
+          //console.log(e.target);
+          // 检查是否存在 .my-custom-select，如果不存在则移除监听器
+          if (!document.querySelector('.my-custom-select')) {
+            document.removeEventListener('click', handleClick);
+          }
+        }
+      });
       document.body.appendChild(select);
     });
   }
