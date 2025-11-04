@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         极客版本搜索框添加清空按钮
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  在搜索输入框后添加清空按钮
 // @author       Derstood
 // @match        *://*/*
@@ -44,7 +44,7 @@
     document.head.appendChild(style);
 
     function initInput() {
-        const wrapper = document.querySelector('.ant-input-affix-wrapper');
+        const wrapper = document.querySelector('.ant-input-affix-wrapper:not(.ant-input-affix-wrapper-readonly)');
         const input = wrapper?.querySelector('input');
 
         if (!input || wrapper.querySelector('.custom-clear-btn')) return;
