@@ -1,3 +1,4 @@
+```JavaScript
 // ==UserScript==
 // @name         漫画便携插件
 // @namespace    http://tampermonkey.net/
@@ -73,3 +74,4 @@
     //
      document.getElementById('Comic_Top_Nav') && document.getElementById('Comic_Top_Nav').remove();
 })();
+```
