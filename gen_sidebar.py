@@ -3,50 +3,77 @@ import re
 
 ROOT = '.'  # 当前目录
 IGNORE = {'_sidebar.md'}
+# 允许的后缀列表
+ALLOWED_EXTENSIONS = ['.md', '.js', '.bat']
+EXTENSIONS_TO_KEEP_SUFFIX = ['.js', '.bat']
+
+# 最大零填充宽度 (用于确保自然排序的字符串比较)
+MAX_PADDING_WIDTH = 5
 
 
 def natural_sort_key(s):
     """
-    生成一个用于自然排序的键。
-    只对最后一个路径组件（文件名或目录名）排序，并按数字分组。
+    生成一个用于智能排序的键。
+    1. 如果包含数字，则 Group ID 为 0，并进行零填充字符串的自然排序。
+    2. 如果不包含数字，则 Group ID 为 1，并进行字母排序。
     """
     base_name = os.path.basename(s.replace('\\', '/'))
+    parts = [text for text in re.split(r'(\d+)', base_name) if text]
 
+    has_digits = any(part.isdigit() for part in parts)
+
+    # 定义转换函数：将数字转换为零填充字符串，其他转换为小写字符串
     def convert(text):
-        return int(text) if text.isdigit() else text.lower()
+        if text.isdigit():
+            # 转换为零填充字符串，确保 '10' > '2'
+            return text.zfill(MAX_PADDING_WIDTH)
+        else:
+            return text.lower()
 
-    return [convert(text) for text in re.split(r'(\d+)', base_name) if text]
+    if has_digits:
+        # 组 0: 数字规范文件，优先排序。所有后续元素都是字符串。
+        # Key: [0, '00001', '_monkey...']
+        return [0] + [convert(text) for text in parts]
+    else:
+        # 组 1: 其他文件，排在数字文件之后。
+        # Key: [1, 'calculate_work_timing_in_jail.js']
+        return [1, base_name.lower()]
+
+
+def get_link_text(filename):
+    ext = os.path.splitext(filename)[1].lower()
+    if ext in EXTENSIONS_TO_KEEP_SUFFIX:
+        return filename
+    return os.path.splitext(filename)[0]
 
 
 def generate_sidebar_links(root_dir):
     """
-    遍历 ROOT 目录，生成侧边栏所需的所有行。
-    此函数仅处理 ROOT 目录和其下的一级子目录，实现扁平化结构。
+    遍历 ROOT 目录，显示一级目录，并递归收集其下所有允许后缀的文件进行统一排序。
     """
     sidebar_items = []
 
-    # 获取 ROOT 目录下的所有内容 (文件和一级目录)
+    # ------------------ 1. 处理 ROOT 目录下的文件 ------------------
+    root_files = []
     try:
-        all_names = os.listdir(root_dir)
+        for name in os.listdir(root_dir):
+            if os.path.isfile(os.path.join(root_dir, name)) and any(
+                    name.endswith(ext) for ext in ALLOWED_EXTENSIONS) and name not in IGNORE:
+                root_files.append(name)
     except FileNotFoundError:
         print(f"错误: 根目录 {root_dir} 未找到。")
         return sidebar_items
 
-    # ------------------ 1. 处理 ROOT 目录下的文件 ------------------
-    # 查找并排序 ROOT 目录下的所有 Markdown 文件 (如 8_利用大模型进行音频转文本.md)
-    root_files = sorted(
-        [name for name in all_names if
-         os.path.isfile(os.path.join(root_dir, name)) and name.endswith('.md') and name not in IGNORE],
-        key=natural_sort_key
-    )
+    root_files.sort(key=natural_sort_key)
+
     for filename in root_files:
         filepath_web = os.path.join(root_dir, filename).replace('\\', '/')
-        link_text = os.path.splitext(filename)[0]
-        # ROOT 目录下的文件没有缩进
+        link_text = get_link_text(filename)
         sidebar_items.append(f'- [{link_text}]({filepath_web})')
 
     # ------------------ 2. 处理一级分类目录 ------------------
-    # 查找并排序 ROOT 目录下的所有一级目录
+
+    all_names = os.listdir(root_dir)
     level1_dirs = sorted(
         [name for name in all_names if os.path.isdir(os.path.join(root_dir, name)) and not name.startswith('.')],
         key=natural_sort_key
@@ -58,50 +85,25 @@ def generate_sidebar_links(root_dir):
         # 2a. 添加一级目录标题 (分类)
         sidebar_items.append(f'- {category_name}')
 
-        # 2b. 收集当前分类目录下的所有链接 (文件和二级目录)
+        # 2b. 递归收集一级目录下的所有文件
         category_links_to_sort = []
 
-        try:
-            category_contents = os.listdir(category_path)
-        except Exception as e:
-            print(f"警告: 无法读取目录 {category_path}. 错误: {e}")
-            continue
-
-        # 将文件和目录分开，并分别进行排序
-        level2_dirs = sorted(
-            [name for name in category_contents if
-             os.path.isdir(os.path.join(category_path, name)) and not name.startswith('.')],
-            key=natural_sort_key
-        )
-        level2_files = sorted(
-            [name for name in category_contents if
-             os.path.isfile(os.path.join(category_path, name)) and name.endswith('.md') and name not in IGNORE],
-            key=natural_sort_key
-        )
-
-        # i. 处理一级目录下的文件 (直接的 MD 文件)
-        for filename in level2_files:
-            filepath_web = os.path.join(category_path, filename).replace('\\', '/')
-            link_text = os.path.splitext(filename)[0]
-            # 使用文件路径作为排序键
-            category_links_to_sort.append((filename, f'  - [{link_text}]({filepath_web})'))
-
-        # ii. 处理二级目录 (包含同名 MD 文件的标题目录)
-        for sub_dirname in level2_dirs:
-            sub_dir_path = os.path.join(category_path, sub_dirname)
-            md_filename = sub_dirname + '.md'
-            md_filepath_web = os.path.join(sub_dir_path, md_filename).replace('\\', '/')
-
-            # (可选的) 检查文件是否存在
-            if not os.path.exists(os.path.join(sub_dir_path, md_filename)):
-                print(f"警告: 目录 {sub_dir_path} 缺少同名文件 {md_filename}，该链接将被跳过。")
+        for dirpath, _, filenames in os.walk(category_path):
+            if os.path.basename(dirpath).startswith('.'):
                 continue
 
-            link_text = sub_dirname  # 链接文本使用目录名
-            # 使用目录名作为排序键
-            category_links_to_sort.append((sub_dirname, f'  - [{link_text}]({md_filepath_web})'))
+            for filename in filenames:
+                if any(filename.endswith(ext) for ext in ALLOWED_EXTENSIONS) and filename not in IGNORE:
+                    filepath = os.path.join(dirpath, filename)
+                    filepath_web = filepath.replace('\\', '/')
 
-        # 2c. 对所有链接进行自然排序并输出
+                    link_text = get_link_text(filename)
+
+                    link_md = f'  - [{link_text}]({filepath_web})'
+
+                    category_links_to_sort.append((filepath, link_md))
+
+        # 2c. 对所有收集到的链接进行智能排序并输出
         category_links_to_sort.sort(key=lambda x: natural_sort_key(x[0]))
 
         for _, link_md in category_links_to_sort:
