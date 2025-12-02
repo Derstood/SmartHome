@@ -7,6 +7,9 @@ IGNORE = {'_sidebar.md'}
 ALLOWED_EXTENSIONS = ['.md', '.js', '.bat']
 EXTENSIONS_TO_KEEP_SUFFIX = ['.js', '.bat']
 
+# **新增：GitHub 仓库原始文件链接的基础 URL**
+GITHUB_RAW_URL_BASE = 'https://github.com/Derstood/SmartHome/blob/main/'
+
 # 最大零填充宽度 (用于确保自然排序的字符串比较)
 MAX_PADDING_WIDTH = 5
 
@@ -47,6 +50,22 @@ def get_link_text(filename):
     return os.path.splitext(filename)[0]
 
 
+def get_link_url(filepath_web):
+    """
+    根据文件后缀决定返回相对路径还是 GitHub 绝对路径。
+    """
+    filename = os.path.basename(filepath_web)
+    ext = os.path.splitext(filename)[1].lower()
+
+    if ext in EXTENSIONS_TO_KEEP_SUFFIX:
+        # 对于 .js 和 .bat 文件，使用 GitHub 绝对路径
+        # filepath_web 已经是以 '/' 分隔的路径，可以直接拼接
+        return GITHUB_RAW_URL_BASE + filepath_web
+    else:
+        # 对于其他文件（如 .md），使用相对路径
+        return filepath_web
+
+
 def generate_sidebar_links(root_dir):
     """
     遍历 ROOT 目录，显示一级目录，并递归收集其下所有允许后缀的文件进行统一排序。
@@ -69,7 +88,10 @@ def generate_sidebar_links(root_dir):
     for filename in root_files:
         filepath_web = os.path.join(root_dir, filename).replace('\\', '/')
         link_text = get_link_text(filename)
-        sidebar_items.append(f'- [{link_text}]({filepath_web})')
+        # **使用新的函数来获取 URL**
+        link_url = get_link_url(filepath_web)
+
+        sidebar_items.append(f'- [{link_text}]({link_url})')
 
     # ------------------ 2. 处理一级分类目录 ------------------
 
@@ -98,8 +120,10 @@ def generate_sidebar_links(root_dir):
                     filepath_web = filepath.replace('\\', '/')
 
                     link_text = get_link_text(filename)
+                    # **使用新的函数来获取 URL**
+                    link_url = get_link_url(filepath_web)
 
-                    link_md = f'  - [{link_text}]({filepath_web})'
+                    link_md = f'  - [{link_text}]({link_url})'
 
                     category_links_to_sort.append((filepath, link_md))
 
