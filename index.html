@@ -5,6 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Docs</title>
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/themes/vue.css">
+  <style>
+    /* ---------------------------------------------------- */
+    /* 侧边栏一级菜单 (如 "IT相关", "README") 样式定制 */
+    /* ---------------------------------------------------- */
+
+    /* 1. 高亮和放大所有一级菜单项（包括纯文本和链接）所在的 <li> */
+    /* .sidebar-nav > ul > li 是顶层的列表项 */
+    .sidebar-nav > ul > li {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        /* 使用 cursor: pointer 模拟可点击的交互感 */
+        cursor: pointer;
+        font-weight: bold; /* 字体加粗 */
+        font-size: 1.15em; /* 字体变大 */
+        color: #3f51b5; /* 蓝色高亮 */
+        transition: background-color 0.2s;
+    }
+
+    /* 2. 移除二级和更深层列表项的特殊样式 */
+    /* 确保只有顶层 <li> 受影响 */
+    .sidebar-nav ul ul li {
+        font-weight: normal;
+        font-size: 1em;
+        color: #444;
+        cursor: default;
+    }
+
+    /* 3. 为纯文本一级菜单项添加 :hover 交互效果 */
+    /* 针对顶层 <li> 添加悬停效果 */
+    .sidebar-nav > ul > li:hover {
+        background-color: #f0f0f0; /* 鼠标放上时背景变浅灰 */
+        /* 由于纯文本不好直接改变颜色，但可以改变背景 */
+    }
+
+    /* 4. 确保原来作为链接的一级菜单（如 README.md）的样式也保持一致 */
+    .sidebar-nav > ul > li > a {
+        /* 取消链接在 <li> 上被重复放大的影响，并继承 <li> 的颜色 */
+        font-weight: inherit !important;
+        font-size: 1em !important;
+        color: inherit !important;
+    }
+
+    /* 5. 确保 README.md 链接本身的 hover 效果仍然生效 */
+    /* Docsify 默认的链接 hover 效果 */
+    .sidebar-nav a:hover {
+        text-decoration: underline;
+    }
+
+</style>
 </head>
 <body>
   <div id="app"></div>
@@ -13,11 +62,12 @@
     window.$docsify = {
       name: 'My Docs',
       loadSidebar: true,
-      subMaxLevel: 3,
+      subMaxLevel: 0,
       auto2top: true
     }
   </script>
 
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
 </body>
 </html>
