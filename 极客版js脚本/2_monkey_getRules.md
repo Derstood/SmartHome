@@ -1,3 +1,4 @@
+```js
 // ==UserScript==
 // @name         GDR/GVR/GER-米家极客版通过 设备/变量/虚拟事件 找场景
 // @namespace    http://tampermonkey.net/
@@ -220,3 +221,4 @@
         return result;
     };
 })();
+```

@@ -1,3 +1,4 @@
+```js
 // ==UserScript==
 // @name         自动获取极客动态密码
 // @namespace    http://tampermonkey.net/
@@ -183,3 +184,4 @@
 
     }
 })();
+```

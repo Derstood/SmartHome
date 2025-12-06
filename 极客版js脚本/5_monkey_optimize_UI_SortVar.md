@@ -1,3 +1,4 @@
+```js
 // ==UserScript==
 // @name         Sort Var
 // @namespace    http://tampermonkey.net/
@@ -59,3 +60,4 @@
       observer.observe(document.body, config);
    }
 })();
+```

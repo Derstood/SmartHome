@@ -1,3 +1,4 @@
+```js
 // ==UserScript==
 // @name         极客版本搜索框添加清空按钮
 // @namespace    http://tampermonkey.net/
@@ -110,3 +111,4 @@
     const observer = new MutationObserver(initInput);
     observer.observe(document.body, { childList: true, subtree: true });
 })();
+```

@@ -1,3 +1,4 @@
+```js
 // ==UserScript==
 // @name         米家极客版getRule UI
 // @namespace    http://tampermonkey.net/
@@ -238,3 +239,4 @@
     createDropdownButton();
   }
 })();
+```

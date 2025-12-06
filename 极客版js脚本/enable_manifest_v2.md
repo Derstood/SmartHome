@@ -1,3 +1,4 @@
+```batch
 @echo off
 REG ADD "HKLM\SOFTWARE\Policies\Google\Chrome" /v ExtensionManifestV2Availability /t REG_DWORD /d 2 /f
 timeout /t 1 >nul
@@ -18,3 +19,4 @@ chrome://flags/#extension-manifest-v2-deprecation-unsupported
 #设置为[Disabled]
 chrome://flags/#allow-legacy-mv2-extensions 
 #设置为[Enabled]
+```

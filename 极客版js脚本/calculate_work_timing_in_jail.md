@@ -1,3 +1,4 @@
+```js
 // ==UserScript==
 // @name         calculate_time
 // @namespace    http://tampermonkey.net/
@@ -76,3 +77,4 @@
 
 
 })();
+```

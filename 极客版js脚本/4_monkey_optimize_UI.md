@@ -1,3 +1,4 @@
+```js
 // ==UserScript==
 // @name         米家极客版UI优化
 // @namespace    http://tampermonkey.net/
@@ -139,3 +140,4 @@
         ruleListUI()
     }
 })();
+```

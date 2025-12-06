@@ -1,3 +1,4 @@
+```js
 // ==UserScript==
 // @name        自动填充验证码
 // @match       *://*/*
@@ -33,4 +34,4 @@
   }
   const lastDigit = code[code.length - 1];
   numMap[lastDigit].click();
-})();
+})();```

@@ -1,3 +1,4 @@
+```js
 // Scriptable 脚本：自动获取极客动态密码（最终版）
 
 // 获取快捷指令传入的文件路径 URL
@@ -76,4 +77,4 @@ try {
   Script.setShortcutOutput(passcode);
 } catch (e) {
   console.error("执行出错:", e);
-}
+}```
