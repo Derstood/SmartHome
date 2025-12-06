@@ -1,4 +1,3 @@
-- [README](./README.md)
 - IT相关
   - [1_clash_tun_mode下git_pull_error](./IT相关/1_clash_tun_mode下git_pull_error/1_clash_tun_mode下git_pull_error.md)
   - [2_局域网串流投屏](./IT相关/2_局域网串流投屏.md)
@@ -63,3 +62,9 @@
   - [6_optimize_UI_add_clear-btn_at_search_input](./极客版js脚本/6_optimize_UI_add_clear-btn_at_search_input.md)
   - [enable_manifest_v2](./极客版js脚本/enable_manifest_v2.md)
   - [calculate_work_timing_in_jail](./极客版js脚本/calculate_work_timing_in_jail.md)
+
+<br>
+
+<a href="#/README.md">
+  <img src="favicon_io/LOGO.png" width="120" style="margin:30px auto;display:block;">
+</a>

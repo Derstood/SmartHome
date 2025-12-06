@@ -2,7 +2,7 @@ import os
 import re
 
 ROOT = '.'  # 当前目录
-IGNORE = {'_sidebar.md'}
+IGNORES = {'_sidebar.md', 'favicon_io'}
 # 允许的后缀列表
 ALLOWED_EXTENSIONS = ['.md', '.js', '.bat']
 EXTENSIONS_TO_KEEP_SUFFIX = ['.js', '.bat']
@@ -77,7 +77,7 @@ def generate_sidebar_links(root_dir):
     try:
         for name in os.listdir(root_dir):
             if os.path.isfile(os.path.join(root_dir, name)) and any(
-                    name.endswith(ext) for ext in ALLOWED_EXTENSIONS) and name not in IGNORE:
+                    name.endswith(ext) for ext in ALLOWED_EXTENSIONS) and name not in IGNORES:
                 root_files.append(name)
     except FileNotFoundError:
         print(f"错误: 根目录 {root_dir} 未找到。")
@@ -97,7 +97,7 @@ def generate_sidebar_links(root_dir):
 
     all_names = os.listdir(root_dir)
     level1_dirs = sorted(
-        [name for name in all_names if os.path.isdir(os.path.join(root_dir, name)) and not name.startswith('.')],
+        [name for name in all_names if os.path.isdir(os.path.join(root_dir, name)) and not name.startswith('.') and name not in IGNORES],
         key=natural_sort_key
     )
 
@@ -115,7 +115,7 @@ def generate_sidebar_links(root_dir):
                 continue
 
             for filename in filenames:
-                if any(filename.endswith(ext) for ext in ALLOWED_EXTENSIONS) and filename not in IGNORE:
+                if any(filename.endswith(ext) for ext in ALLOWED_EXTENSIONS) and filename not in IGNORES:
                     filepath = os.path.join(dirpath, filename)
                     filepath_web = filepath.replace('\\', '/')
 
@@ -138,7 +138,12 @@ def generate_sidebar_links(root_dir):
 
 # --- 主执行逻辑 ---
 sidebar_lines = generate_sidebar_links(ROOT)
-
+# 去掉REDAME
+del sidebar_lines[0]
+# 加个跳转主页的图标
+sidebar_lines.append(
+    '\n<br>\n\n<a href="#/README.md">\n  <img src="favicon_io/LOGO.png" width="120" style="margin:30px auto;display:block;">\n</a>'
+)
 with open('_sidebar.md', 'w', encoding='utf-8') as f:
     f.write('\n'.join(sidebar_lines))
 
