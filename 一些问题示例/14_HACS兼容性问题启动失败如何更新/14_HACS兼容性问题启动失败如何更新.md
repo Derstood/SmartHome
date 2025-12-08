@@ -17,7 +17,9 @@
 4. 安装后在**Get-HACS**加载项中点击**启动**
 5. 在**Get-HACS**加载项中点击**日志**选项卡，
 6. 确认 HACS 下载并返回如下内容：
+
     ![alt text](image.png)
+
 7. 重启Home Assistant
    
 ## 存在的一些小问题

@@ -3,12 +3,6 @@ import re
 
 ROOT = '.'  # 当前目录
 IGNORES = {'_sidebar.md', 'favicon_io'}
-# 允许的后缀列表
-ALLOWED_EXTENSIONS = ['.md', '.js', '.bat']
-EXTENSIONS_TO_KEEP_SUFFIX = ['.js', '.bat']
-
-# **新增：GitHub 仓库原始文件链接的基础 URL**
-GITHUB_RAW_URL_BASE = 'https://github.com/Derstood/SmartHome/blob/main/'
 
 # 最大零填充宽度 (用于确保自然排序的字符串比较)
 MAX_PADDING_WIDTH = 5
@@ -43,29 +37,6 @@ def natural_sort_key(s):
         return [1, base_name.lower()]
 
 
-def get_link_text(filename):
-    ext = os.path.splitext(filename)[1].lower()
-    if ext in EXTENSIONS_TO_KEEP_SUFFIX:
-        return filename
-    return os.path.splitext(filename)[0]
-
-
-def get_link_url(filepath_web):
-    """
-    根据文件后缀决定返回相对路径还是 GitHub 绝对路径。
-    """
-    filename = os.path.basename(filepath_web)
-    ext = os.path.splitext(filename)[1].lower()
-
-    if ext in EXTENSIONS_TO_KEEP_SUFFIX:
-        # 对于 .js 和 .bat 文件，使用 GitHub 绝对路径
-        # filepath_web 已经是以 '/' 分隔的路径，可以直接拼接
-        return GITHUB_RAW_URL_BASE + filepath_web
-    else:
-        # 对于其他文件（如 .md），使用相对路径
-        return filepath_web
-
-
 def generate_sidebar_links(root_dir):
     """
     遍历 ROOT 目录，显示一级目录，并递归收集其下所有允许后缀的文件进行统一排序。
@@ -76,8 +47,7 @@ def generate_sidebar_links(root_dir):
     root_files = []
     try:
         for name in os.listdir(root_dir):
-            if os.path.isfile(os.path.join(root_dir, name)) and any(
-                    name.endswith(ext) for ext in ALLOWED_EXTENSIONS) and name not in IGNORES:
+            if os.path.isfile(os.path.join(root_dir, name)) and name.endswith('.md') and name not in IGNORES:
                 root_files.append(name)
     except FileNotFoundError:
         print(f"错误: 根目录 {root_dir} 未找到。")
@@ -87,17 +57,15 @@ def generate_sidebar_links(root_dir):
 
     for filename in root_files:
         filepath_web = os.path.join(root_dir, filename).replace('\\', '/')
-        link_text = get_link_text(filename)
-        # **使用新的函数来获取 URL**
-        link_url = get_link_url(filepath_web)
-
-        sidebar_items.append(f'- [{link_text}]({link_url})')
+        link_text = os.path.splitext(filename)[0]
+        sidebar_items.append(f'- [{link_text}]({filepath_web})')
 
     # ------------------ 2. 处理一级分类目录 ------------------
 
     all_names = os.listdir(root_dir)
     level1_dirs = sorted(
-        [name for name in all_names if os.path.isdir(os.path.join(root_dir, name)) and not name.startswith('.') and name not in IGNORES],
+        [name for name in all_names if os.path.isdir(os.path.join(root_dir, name)) and
+         not name.startswith('.') and name not in IGNORES],
         key=natural_sort_key
     )
 
@@ -115,15 +83,11 @@ def generate_sidebar_links(root_dir):
                 continue
 
             for filename in filenames:
-                if any(filename.endswith(ext) for ext in ALLOWED_EXTENSIONS) and filename not in IGNORES:
+                if filename.endswith('.md') and filename not in IGNORES:
                     filepath = os.path.join(dirpath, filename)
                     filepath_web = filepath.replace('\\', '/')
-
-                    link_text = get_link_text(filename)
-                    # **使用新的函数来获取 URL**
-                    link_url = get_link_url(filepath_web)
-
-                    link_md = f'  - [{link_text}]({link_url})'
+                    link_text = os.path.splitext(filename)[0]
+                    link_md = f'  - [{link_text}]({filepath_web})'
 
                     category_links_to_sort.append((filepath, link_md))
 
@@ -138,7 +102,7 @@ def generate_sidebar_links(root_dir):
 
 # --- 主执行逻辑 ---
 sidebar_lines = generate_sidebar_links(ROOT)
-# 去掉REDAME
+# 去掉README
 del sidebar_lines[0]
 # 加个跳转主页的图标
 sidebar_lines.append(

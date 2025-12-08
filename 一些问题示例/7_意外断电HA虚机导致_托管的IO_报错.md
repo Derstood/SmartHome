@@ -1,4 +1,4 @@
-Homeassistant 虚机报错：
+# Homeassistant 虚机报错
 ```log
 失败 - 对象类型需要托管的 I/O homeassistant
 ```

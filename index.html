@@ -63,11 +63,20 @@
       name: '<a href="#/README.md"><img src="./favicon_io/android-chrome-512x512.png" style="height:80px;vertical-align:middle;margin-right:26px;"></a>Derstood Docs',
       loadSidebar: true,
       subMaxLevel: 0,
-      auto2top: true
+      auto2top: true,
+      search: {
+        maxAge: 86400000, // 缓存时间（1天）
+        placeholder: '搜索...', // 搜索框占位符
+        noData: '找不到结果~', // 没有结果时的显示文本
+      }
     }
   </script>
 
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify-copy-code"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
 </body>
 </html>
