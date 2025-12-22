@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         自动获取极客动态密码curl version
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.21
 // @description  Send a POST request with curl cmd
 // @author       Derstood
 // @match        *://*/*
@@ -82,7 +82,7 @@
 
       // 自定义按钮
       const button = document.createElement('button');
-      button.innerText = '上传抓包文件'; // 设置自定义文字
+      button.innerText = '上传curl命令'; // 设置自定义文字
       button.style.width = '100%';
       button.style.padding = '5px';
       button.style.cursor = 'pointer';
@@ -181,5 +181,4 @@
 
     }
 })();
-
 ```
