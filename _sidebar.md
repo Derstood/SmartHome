@@ -34,6 +34,7 @@
   - [19_openwrt关闭ipv6](./一些玩法示例/19_openwrt关闭ipv6.md)
   - [20_Ainice二代传感器蓝牙状态参数解码](./一些玩法示例/20_Ainice二代传感器蓝牙状态参数解码/20_Ainice二代传感器蓝牙状态参数解码.md)
   - [21_极客卡片传播顺序](./一些玩法示例/21_极客卡片传播顺序/21_极客卡片传播顺序.md)
+  - [22_利用摄像头当传感器](./一些玩法示例/22_利用摄像头当传感器/22_利用摄像头当传感器.md)
 - 一些问题示例
   - [0_中枢网关重置不了](./一些问题示例/0_中枢网关重置不了/0_中枢网关重置不了.md)
   - [1_首创牌VRF状态存在glitch现象](./一些问题示例/1_首创牌VRF状态存在glitch现象/1_首创牌VRF状态存在glitch现象.md)
@@ -58,6 +59,7 @@
   - [4_monkey_optimize_UI](./极客版js脚本/4_monkey_optimize_UI.md)
   - [5_monkey_optimize_UI_SortVar](./极客版js脚本/5_monkey_optimize_UI_SortVar.md)
   - [6_optimize_UI_add_clear-btn_at_search_input](./极客版js脚本/6_optimize_UI_add_clear-btn_at_search_input.md)
+  - [7_monkey_get_xiaomi_passwd_curl_version](./极客版js脚本/7_monkey_get_xiaomi_passwd_curl_version.md)
   - [enable_manifest_v2](./极客版js脚本/enable_manifest_v2.md)
   - [calculate_work_timing_in_jail](./极客版js脚本/calculate_work_timing_in_jail.md)
 
