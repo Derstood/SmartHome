@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         GDR/GVR/GER-米家极客版通过 设备/变量/虚拟事件 找场景
 // @namespace    http://tampermonkey.net/
-// @version      0.5
+// @version      0.51
 // @description  米家极客版通过 设备/变量/虚拟事件 找场景
 // @author       Derstood
 // @match        *://*/*
@@ -210,8 +210,9 @@
                     var varName = varList[n.props?.arguments?.[0]?.id]?.userData?.name;
                     valid = 1;
                 }
-                if (valid && aimVarName && aimVarName == varName ) {
-                        result.push(rule.userData.name);
+                if (valid && aimVarName && aimVarName === varName ) {
+                    result.push(rule.userData.name);
+                    break;
                 }
             }
         }
