@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         GDR/GVR/GER-米家极客版通过 设备/变量/虚拟事件 找场景
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.5
 // @description  米家极客版通过 设备/变量/虚拟事件 找场景
 // @author       Derstood
 // @match        *://*/*
@@ -77,8 +77,8 @@
         // 调用 getGraphList API 获取规则列表
         const ruleList = await callAPI('getGraphList');
 
-        // 初始化设备规则Set
-        const devRuleList = new Set();
+        // 初始化设备规则
+        const result = []
         // 遍历每个规则
         for (const rule of ruleList) {
             // 调用 getGraph API 获取规则的详细信息
@@ -89,12 +89,11 @@
 
             // 使用 for...of 循环替代 forEach 以便在满足条件时中途退出循环
             for (const d of dids) {
-                if (aimDeviceName == devList[d]?.name) {
-                    devRuleList.add(rule.userData.name);
+                if (aimDeviceName === devList[d]?.name) {
+                    result.push(rule.userData.name);
                 }
             }
         }
-        const result = [...devRuleList];
         console.log(result);
         return result;
     };
@@ -188,7 +187,7 @@
         const ruleList = await callAPI('getGraphList');
 
         // 初始化设备规则Set
-        const varRuleList = new Set();
+        const result = []
 
         const varList = await callAPI('getVarList', { scope: 'global' });
         // 遍历每个规则
@@ -212,11 +211,10 @@
                     valid = 1;
                 }
                 if (valid && aimVarName && aimVarName == varName ) {
-                        varRuleList.add(rule.userData.name);
+                        result.push(rule.userData.name);
                 }
             }
         }
-        const result = [...varRuleList];
         console.log(result);
         return result;
     };
