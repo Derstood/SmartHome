@@ -1,0 +1,50 @@
+esphome:
+  name: ble-sniffer-s3
+  friendly_name: BLE Sniffer S3
+
+esp32:
+  board: esp32-s3-devkitc-1
+  framework:
+    type: arduino
+
+# ===== 基础组件 =====
+logger:
+  level: VERY_VERBOSE # 开启后，你将在日志窗口看到刷屏的发现记录
+
+api:
+  encryption:
+    key: "638H7SYQnb4AkvMTaOvkFOt/d5Mh9vxs8W7EayaOKT0="
+
+wifi:
+  ssid: "danaodai"
+  password: "66666666"
+  ap:
+    ssid: "ble-sniffer-s3-fallback"
+    password: "12345678"
+
+captive_portal:
+
+# ===== BLE 嗅探核心 =====
+esp32_ble_tracker:
+  scan_parameters:
+    interval: 600ms
+    window: 600ms
+    active: true # 开启主动扫描以获取更多设备响应信息
+
+# ===== 监听指定 MAC 的 RSSI =====
+sensor:
+  - platform: ble_rssi
+    irk: "7aff406ebad17a6991955f5e0075bfdf"
+    name: "iPhone 16 Pro RSSI"
+
+  - platform: ble_rssi
+    irk: "7aff406ebad17a6991955f5e0075bfdf"
+    name: "iPhone 13 Pro RSSI"
+
+text_sensor:
+  - platform: version
+    name: "ESPHome 版本"
+
+button:
+  - platform: restart
+    name: "ESP32 重启"
